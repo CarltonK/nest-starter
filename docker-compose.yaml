@@ -1,0 +1,56 @@
+version: '3.6'
+
+services:
+  postgres:
+    container_name: database
+    image: postgres:14
+    restart: unless-stopped
+    volumes:
+      - nest:/var/lib/postgresql/data
+    networks:
+      backend_network:
+        ipv4_address: 172.31.0.3
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: "user"
+      POSTGRES_PASSWORD: "password"
+      POSTGRES_DB: "database"
+      PGDATA: /var/lib/postgresql/data/database/
+  api:
+    container_name: app
+    build:
+      context: .
+      dockerfile: docker/dev.Dockerfile
+    volumes:
+      # Binds volume to enable working through docker locally
+      - type: bind
+        source: ./src/
+        target: /app/src/
+      - type: bind
+        source: ./package.json
+        target: /app/package.json
+      - type: bind
+        source: ./tsconfig.json
+        target: /app/tsconfig.json
+    networks:
+      backend_network:
+        ipv4_address: 172.31.0.2
+    depends_on:
+      - postgres
+    ports:
+      - 3000:3000
+    environment:
+      PORT: 3000
+      NODE_ENV: 'local'
+      API_LOG_LEVEL: 'debug'
+volumes:
+  nest:
+
+
+networks:
+  backend_network:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.31.0.0/16
