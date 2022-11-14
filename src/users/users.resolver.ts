@@ -1,21 +1,7 @@
-import { Resolver, Query, Mutation, Args, InputType, Field } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { UsersService } from './users.service';
-import { CreateUserInput } from './dto/create-user.input';
-import { UpdateUserInput } from './dto/update-user.input';
-import { Inject } from '@nestjs/common';
-import { PrismaService } from 'src/services/prisma/prisma.service';
 import { User } from './entities/user.entity';
-import { Context } from '@nestjs/graphql';
-
-
-@InputType()
-class UserCreateInput {
-  @Field()
-  email: string
-
-  @Field({ nullable: true })
-  name: string
-}
+import { UserCreateInput } from './dto/user-create-input';
 
 @Resolver('User')
 export class UsersResolver {

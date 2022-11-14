@@ -1,7 +1,10 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
 type User {
-  id: Int!
   email: String!
-  name: String
+  name: String!
 }
 
 type Query {
@@ -9,7 +12,7 @@ type Query {
 }
 
 type Mutation {
-  signUpUser(data: UserCreateInput!): User!
+  signUpUser(createUserInput: UserCreateInput!): User!
 }
 
 input UserCreateInput {
