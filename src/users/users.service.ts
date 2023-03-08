@@ -1,13 +1,11 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { Args, Context, Field, InputType } from '@nestjs/graphql';
 import { User } from '@prisma/client';
-import { PrismaService } from 'src/services/prisma/prisma.service';import { UpdateUserInput } from './dto/update-user.input';
-;
-
+import { PrismaService } from '../services/prisma/prisma.service';
+import { UpdateUserInput } from './dto/update-user.input';
 
 @Injectable()
 export class UsersService {
-  constructor(@Inject(PrismaService) private prismaService: PrismaService) { }
+  constructor(private prismaService: PrismaService) { }
 
   async signUpUser(data: any): Promise<User> {
     return this.prismaService.user.create({
